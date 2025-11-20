@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 //comonents
 import Banner from "@/components/Banner";
 
@@ -21,9 +22,11 @@ export default function Home() {
         Prox: Hotel Grande Serra
       </p>
       <div className="text-center  flex flex-col gap-3  items-center pb-2">
-        <button className="text-white text-[1.1rem] p-3 font-bold pr-10 pl-10 mt-8 rounded-full  bg-gradient-to-r from-orange-700 to-orange-500 cursor-pointer hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-700 animate-bounce ">
-          Ver Cardápio
-        </button>
+        <Link href="/cardapio">
+          <button className="text-white text-[1.1rem] p-3 font-bold pr-10 pl-10 mt-8 rounded-full  bg-gradient-to-r from-orange-700 to-orange-500 cursor-pointer hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-700 animate-bounce ">
+            Ver Cardápio
+          </button>
+        </Link>
       </div>
     </section>
   );

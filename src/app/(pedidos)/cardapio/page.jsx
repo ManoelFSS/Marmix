@@ -87,47 +87,75 @@ export default function Cardapio() {
   }, [marmitaItens, sacola]);
 
    return (
-     <section className=" flex flex-col ">
+     <section className=" flex flex-col h-full w-full justify-between bg-white rounded-xl shadow-lg ">
        <div
-         className="flex justify-center items-center h-70 
+         className="relative flex justify-center items-center h-70 sm:h-105 2xl:h-120
          w-full rounded-xl   shadow-lg bg-gradient-to-r from-orange-700 to-orange-500 
-      "
+       "
        >
          <div
            className={`transition duration-500 ${
              price === 15 ? "scale-115" : ""
            } flex justify-center items-center relative`}
          >
+           {/* imagem base */}
            <img
              src="/mix.png"
              alt="Restaurante"
-             className=" w-[250px] xs:w-[270px] sm:w-[400px] lg:w-[550px] lg:h-[300px] xl:w-[560px] 2xl:w-[700px] 2xl:h-[400px] "
+             className=" w-[250px] xs:w-[270px] sm:w-[400px]   2xl:w-[450px] 2xl:h-[450px] "
            />
            <img
-             className="absolute rounded-full w-[180px] h-[180px]"
+             className="absolute rounded-full w-[180px] h-[180px]
+             xs:w-[200px] xs:h-[200px]
+             sm:w-[300px] sm:h-[300px] 2xl:w-[330px] 2xl:h-[330px]
+             "
              src={arrozImage}
              alt="#"
            />
            <img
-             className="absolute rounded-full w-[180px] h-[180px]"
+             className="absolute rounded-full w-[180px] h-[180px]
+             xs:w-[200px] xs:h-[200px]
+             sm:w-[300px] sm:h-[300px] 2xl:w-[330px] 2xl:h-[330px]
+             "
              src={feijaoImage}
              alt="#"
            />
            <img
-             className="absolute bottom-0 rotate-12 rounded-full w-[180px] h-[180px]"
+             className="absolute bottom-0 rotate-12 rounded-full w-[140px] h-[140px] 
+             xs:w-[150px] xs:h-[150px]
+             sm:w-[250px] sm:h-[250px] 2xl:w-[300px] 2xl:h-[300px]
+             "
              src={macarraoImage}
              alt="#"
            />
          </div>
+
+         <div className="flex flex-col  items-center text-black text-[1.5rem] px-5 py-1 pb-3  absolute right-0 bottom-0  ">
+           <div
+             className={`relative ${
+               sacola.length > 0 ? "text-green-800 animate-bounce" : ""
+             }`}
+           >
+             <GiShoppingBag className={`text-[3rem]`} />
+             <span
+               className={`text-[1.3rem] text-white absolute top-3 right-4.5 `}
+             >
+               {sacola.length}
+             </span>
+           </div>
+           <p className={`text-[1rem] text-white font-medium`}>
+             {"Ver Sacola"}
+           </p>
+         </div>
        </div>
-       <div className="bg-white p-2 border-b border-gray-400">
+       <div className="bg-white p-1 border-b border-gray-400">
          <p className="text-black text-center text-[1.2rem] font-bold ">
            Escolha o Valor
          </p>
-         <div className="flex gap-4 p-2 justify-between text-[1.2rem]">
+         <div className="flex gap-4 p-1 justify-between text-[1rem]">
            <button
              onClick={() => setPrice(10)}
-             className={`rounded-[8px] px-5 py-1 border  border-black text-black
+             className={`rounded-[5px] px-5 py-1 border  border-black text-black
               ${
                 price === 10
                   ? "bg-orange-500 text-white border-0"
@@ -152,28 +180,36 @@ export default function Cardapio() {
          </div>
        </div>
        <div className=" bg-white p-2 pt-1 pb-2 ">
-         <p className="text-black text-[1.1rem] font-bold">Cardápio</p>
-         <p className="text-black text-[1rem] pb-2">
-           Monte sua marmita a baixo
-         </p>
+         <div className="flex gap-10 ">
+           <p className="text-black text-[1.1rem] font-bold">Cardápio</p>
+           <p className="text-black text-[1rem] pb-2">
+             Monte sua marmita a baixo
+           </p>
+         </div>
+
          <section
-           className="  w-full p-1 flex justify-evenly flex-wrap gap-2 overflow-auto h-55 rounded-lg 
+           className=" flex flex-wrap gap-1 h-[150px] 2xl:h-[100px]  w-full p-1  overflow-auto 
+            rounded-lg 
          "
          >
            {menuItems.map((item, index) => (
              <div
+               onClick={() => handleAddItem(item)}
                key={index}
-               className="p-1 bg-zinc-100 w-[161px] flex gap-2 items-center "
+               className="h-7 mb-1 flex  gap-1 pl-1  bg-zinc-100 w-[160px] items-center  "
              >
                <input
-                 onClick={() => handleAddItem(item)}
                  className="h-4 w-4"
                  type="checkbox"
                  id={item.name}
                  checked={selectedItems.includes(item.name)}
                  readOnly
                />
-               <label className="text-black text-[0.9rem]" htmlFor={item.name}>
+               <label
+                 onClick={(e) => e.stopPropagation()}
+                 className="text-black text-[0.9rem]"
+                 htmlFor={item.name}
+               >
                  {item.name}
                </label>
              </div>
@@ -181,22 +217,7 @@ export default function Cardapio() {
          </section>
        </div>
 
-       <div className="bg-white flex gap-20 items-center justify-center p-2 border-t-2">
-         <div className="flex flex-col  items-center text-black text-[1.5rem] px-5 py-1  relative  ">
-           <GiShoppingBag
-             className={`${
-               sacola.length > 0 ? "text-green-700 animate-pulse" : ""
-             } text-[3rem]`}
-           />
-           <p
-             className={`text-[1.3rem] 
-              ${sacola.length > 0 ? "text-green-700 " : ""}
-            `}
-           >
-             <span className="text-white absolute left-15 top-4 ">{sacola.length}</span>
-             {"Ver Sacola"}
-           </p>
-         </div>
+       <div className="bg-white flex gap-20 items-center justify-end p-1 pr-15 border-t-2">
          <div className=" flex gap-5 items-center pr-2">
            <p className="text-black text-[1.3rem] font-bold">Total</p>
            <p className="text-black text-[1.3rem]">

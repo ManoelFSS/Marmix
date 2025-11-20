@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
       </head>
 
       <body >
-        <main className="bg-gray-200 w-full min-h-screen  " >
+        <main className="bg-gray-200 w-full h-full flex items-center " >
           <section>
             <Header />
             <div className="p-3 ">{children}</div>
