@@ -2,8 +2,13 @@
 import {useState, useEffect} from "react";
 import { menuItems } from "@/app/(pedidos)/cardapio/data";
 import { GiShoppingBag } from "react-icons/gi";
+// stores
+import { useBagStore } from "@/stores/bagStore";
+import { useBagState } from "@/stores/bagState";
 
 export default function Cardapio() {
+  const setCloseBag = useBagState((state) => state.setCloseBag);
+  const addToBag = useBagStore((state) => state.addToBag);
   const [marmitaItens, setMarmitaItens] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [sacola, setSacola] = useState([]);
@@ -82,6 +87,7 @@ export default function Cardapio() {
 
 
   useEffect(() => {
+    addToBag(sacola);
     console.log(marmitaItens);
     console.log(sacola);
   }, [marmitaItens, sacola]);
@@ -130,7 +136,7 @@ export default function Cardapio() {
            />
          </div>
 
-         <div className="flex flex-col  items-center text-black text-[1.5rem] px-5 py-1 pb-3  absolute right-0 bottom-0  ">
+         <div onClick={()=> setCloseBag(true)} className="flex flex-col  items-center text-black text-[1.5rem] px-5 py-1 pb-3  absolute right-0 bottom-0  ">
            <div
              className={`relative ${
                sacola.length > 0 ? "text-green-800 animate-bounce" : ""

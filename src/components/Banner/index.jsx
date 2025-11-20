@@ -5,11 +5,11 @@ export default function Banner() {
     <div
       className="relative xl:flex justify-center items-center h-122 xs:h-110 sm:h-125 
       lg:h-123 w-full rounded-xl   shadow-lg bg-gradient-to-r from-orange-700 to-orange-500 
-     
+        sm:px-20
       "
     >
       <section className="flex  xl:flex xl:flex-row flex-col items-center">
-        <div className="relative z-10 flex gap-3 flex-col items-center pt-4 xs:w-[76%] md:w-[60%] lg:w-[70%] xl:w-[400px] ">
+        <div className="relative z-10 flex gap-1 flex-col items-center pt-4 xs:w-[76%] md:w-[60%] lg:w-[70%] xl:w-[400px] ">
           <h3 className="uppercase text-[2.6rem] sm:text-[3rem] xl:text-[4rem] font-extrabold font-rubik">
             Marmitex
           </h3>

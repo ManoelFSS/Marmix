@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 //components  
 import Header from "../components/Header";
+import Bag from "../components/Bag";
 import Sidebar from "../components/Sidebar";
 
 const geistSans = Geist({
@@ -29,10 +30,11 @@ export default function RootLayout({ children }) {
       </head>
 
       <body >
-        <main className="bg-gray-200 w-full h-full flex items-center " >
+        <main className="bg-gray-200 w-full h-full flex items-center justify-center " >
           <section>
             <Header />
             <div className="p-3 ">{children}</div>
+            <Bag />
           </section>
         </main>
       </body>
