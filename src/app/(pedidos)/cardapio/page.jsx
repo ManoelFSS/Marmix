@@ -140,11 +140,12 @@ export default function Cardapio() {
              <span
                className={`text-[1.3rem] text-white absolute top-3 right-4.5 `}
              >
-               {sacola.length}
+               {sacola.reduce((acc, item) => acc + item.count, 0)}
              </span>
            </div>
            <p className={`text-[1rem] text-white font-medium`}>
-             {"Ver Sacola"}
+             {sacola.reduce((acc, item) => acc + item.valorTotal, 0).toLocaleString("pt-BR",{ style: "currency",currency: "BRL",}
+             )}
            </p>
          </div>
        </div>
