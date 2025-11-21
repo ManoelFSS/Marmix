@@ -3,8 +3,8 @@
 export default function Banner() {
   return (
     <div
-      className="relative xl:flex justify-center items-center h-122 xs:h-110 sm:h-125 
-      lg:h-123 w-full rounded-xl   shadow-lg bg-gradient-to-r from-orange-700 to-orange-500 
+      className="relative  xl:flex justify-center items-center h-122 xs:h-110 sm:h-125 
+      lg:h-90 w-full rounded-xl   shadow-lg bg-gradient-to-r from-orange-700 to-orange-500 
         sm:px-20
       "
     >
@@ -27,7 +27,7 @@ export default function Banner() {
           <img
             src="/marmitaFeita.png"
             alt="Restaurante"
-            className="relative z-10 w-[300px] xs:w-[270px] sm:w-[400px] lg:w-[550px] lg:h-[300px] xl:w-[560px] 2xl:w-[700px] 2xl:h-[400px] "
+            className="relative z-10 w-[300px] xs:w-[270px] sm:w-[400px] lg:w-[550px] lg:h-[300px] xl:w-[560px] 2xl:w-[650px] 2xl:h-[340px] "
           />
           <div className="relative z-10 flex xs:flex-col lg:flex-col  xl:flex-col items-center justify-center gap-10 xs:gap-4 lg:gap-3 ">
             <div className="text-center">

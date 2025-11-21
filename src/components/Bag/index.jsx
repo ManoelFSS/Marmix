@@ -6,6 +6,7 @@ import CardBag from "../CardBag/idex";
 //icons 
 import { AiFillCloseSquare } from "react-icons/ai";
 import { GiShoppingBag } from "react-icons/gi";
+import { TbBikeFilled } from "react-icons/tb";
 //stores
 import { useBagStore } from "@/stores/bagStore";
 import { useBagState } from "@/stores/bagState";
@@ -21,39 +22,93 @@ export default function Bag() {
 
   return (
     <aside
-      className={`
-      absolute top-0 right-0 z-50 h-full bg-white border border-gray-300 
-      rounded-lg shadow-2xs transition-all duration-300 ease-in-out
-
-      ${closeBag ? "w-full translate-x-0 opacity-100" : "w-0 translate-x-full opacity-0 hidden"}
+      className={`overflow-hidden  h-full 
+      fixed top-0 right-0 z-50  bg-zinc-200
+      rounded-lg shadow-2xs transition-all duration-400 ease-in-out
+      ${closeBag ? "w-full xs:w-[420px]  opacity-100" : "w-0  opacity-0"}
     `}
     >
       <div>
         <div
-          className="flex items-center justify-between px-6 py-2 border-b
+          className="relative flex h-full items-center justify-between px-6 py-2 border-b
          border-gray-300 
          "
         >
           <div
-            className={`relative ${
+            className={`relative  flex items-center gap-2 ${
               bag.length > 0 ? "text-green-800 " : ""
             }`}
           >
-            <GiShoppingBag className={`text-[3rem]`} />
+            <GiShoppingBag className={`text-[3.5rem] text-black`} />
             <span
-              className={`text-[1.3rem] text-white absolute top-3 right-4.5 z-20 `}
+              className={`text-[1.3rem] text-white absolute top-4 left-4 z-20 `}
             >
-              {bag.reduce((acc, item) => acc + item.count, 0)}
+              {bag.reduce((acc, item) => acc + item.count, 0) <= 9 &&
+              bag.reduce((acc, item) => acc + item.count, 0) > 0
+                ? "0" + bag.reduce((acc, item) => acc + item.count, 0)
+                : bag.reduce((acc, item) => acc + item.count, 0)}
             </span>
+            <p className="text-black text-[1.5rem]">
+              {bag.length === 0
+                ? "Sacola Vazia"
+                : bag.reduce((acc, item) => acc + item.count, 0) === 1
+                ? "Pedido"
+                : "Pedidos"}
+            </p>
           </div>
           <AiFillCloseSquare
             onClick={() => {
               setCloseBag(false);
             }}
-            className="text-red-600 text-[2rem]"
+            className="text-red-600 text-[2rem] cursor-pointer hover:text-red-800 transition-all duration-300 ease-in-out "
           />
         </div>
-        <CardBag />
+        <section
+          className="p-2 flex-1 h-[74vh] overflow-auto bg-white
+          custom-scroll overflow-y-scroll
+        "
+        >
+          {bag.map((pedido) => (
+            <CardBag bag={bag} key={pedido.id} pedido={pedido} />
+          ))}
+        </section>
+        <div>
+          <div
+            className="bg-white p-2 border-t-2 border-gray-200 flex 
+           flex-col  pl-10
+          "
+          >
+            <p className="text-black text-[1.4rem] pl-3">Total</p>
+            <p className="text-black text-[1.2rem] font-bold ">
+              {bag
+                .reduce((acc, item) => acc + item.valorTotal, 0)
+                .toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
+            </p>
+          </div>
+          <div className="h-20  flex gap-2 justify-center items-center">
+            <button
+              className="border-2 border-orange-500  bg-gradient-to-r from-orange-700 to-orange-500 
+            hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-700 
+            transition-all duration-300 ease-in-out text-white text-[1.2rem] p-3
+            pl-2 pr-2  rounded
+            "
+            >
+              <TbBikeFilled /> Pedir delivery
+            </button>
+
+            <button
+              className="text-white bg-zinc-700 border-1 border-black font-medium 
+             transition-all duration-300 ease-in-out text-[1.2rem] p-3 pl-4 pr-4 
+             rounded
+             "
+            >
+              Retirar no local
+            </button>
+          </div>
+        </div>
       </div>
     </aside>
   );

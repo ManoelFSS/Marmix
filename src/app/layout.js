@@ -24,18 +24,19 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt">
+    <html className="h-full" lang="pt">
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
       </head>
 
-      <body >
-        <main className="bg-gray-200 w-full h-full flex items-center justify-center " >
-          <section>
-            <Header />
-            <div className="p-3 ">{children}</div>
-            <Bag />
-          </section>
+      <body className="h-full">
+        <main className="relative bg-gray-200 h-full flex flex-col ">
+          <Header />
+          <section className="p-1 flex-1 overflow-auto  ">{children}</section>
+          <Bag />
         </main>
       </body>
     </html>

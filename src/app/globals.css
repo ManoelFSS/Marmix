@@ -22,32 +22,12 @@
   --font-Mea: "Mea Culpa", cursive;
 }
 
-@layer utilities {
-  /* Largura da barra */
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
 
-  /* Cor do trilho */
-  .scrollbar-track::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-
-  /* Cor da barra */
-  .scrollbar-thumb::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 8px;
-  }
-
-  /* Cor ao passar o mouse */
-  .scrollbar-thumb:hover::-webkit-scrollbar-thumb {
-    background: #555;
-  }
-}
 
 @theme {
   --breakpoint-xs: 480px;   /* Exemplo de breakpoint personalizado */
+  --breakpoint-xxs: 395px; 
+  --breakpoint-x: 375px; 
 }
 
 @media (prefers-color-scheme: dark) {
@@ -60,4 +40,19 @@
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+
+/* globals.css */
+.custom-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #F35B00; /* azul */
+  border-radius: 20px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: #e5e7eb; /* cinza */
 }
