@@ -21,28 +21,6 @@ export default function Bag() {
   const bag = useBagStore((state) => state.bag);
   console.log(bag.length);
 
-  // const handleEnviarPedido = () => {
-  //   navigator.geolocation.getCurrentPosition(
-  //     (pos) => {
-  //       const origem = {
-  //         lat: pos.coords.latitude,
-  //         lng: pos.coords.longitude,
-  //       };
-
-  //       const mensagem = gerarMensagemWhatsapp({
-  //         nomeCliente: "Cliente Exemplo",
-  //         endereco: "Rua Exemplo, 123, Cidade, Estado",
-  //         pedidos: bag, // seu array de pedidos
-  //         origem,
-  //       });
-
-  //       window.open(`https://wa.me/55${74935050160}?text=${mensagem}`);
-  //     },
-  //     (err) => {
-  //       alert("Não foi possível obter sua localização.");
-  //     }
-  //   );
-  // };
 
   function enviarPedido() {
     
@@ -79,7 +57,7 @@ export default function Bag() {
   return (
     <aside
       className={`overflow-hidden h-[100svh]   flex flex-col justify-between border border-amber-500
-      absolute top-0  right-0 z-50  bg-zinc-200
+      absolute top-0  right-0 z-190  bg-zinc-200
       rounded-lg shadow-2xs transition-all duration-400 ease-in-out
       ${closeBag ? "w-full xs:w-[420px]  opacity-100" : "w-0  opacity-0"}
     `}
