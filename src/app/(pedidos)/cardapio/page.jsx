@@ -129,7 +129,8 @@ export default function Cardapio() {
             <GiShoppingBag className={`text-[3.5rem] sm:text-[5rem]`} />
             <span
               className={`text-[1.3rem] text-white absolute 
-                top-4 right-4 sm:top-8 sm:right-8
+                 sm:top-8 sm:right-8
+                ${bag.length > 0 ? "top-4 right-4" : "top-4 right-5.5"}
               `}
             >
               {bag?.reduce((acc, item) => acc + item.count, 0) > 0 &&
@@ -187,7 +188,7 @@ export default function Cardapio() {
         <section
           className=" flex flex-wrap gap-1  p-1  overflow-auto custom-scroll overflow-y-scroll
           border border-amber-600 justify-center items-center  
-          h-[180px] x:h-[170px] xxs:h-[200px] sm:h-[170px] lg:h-[150px] 2xl:h-[200px]  
+          h-[130px] x:h-[100px] xxs:h-[180px] sm:h-[170px] lg:h-[150px] 2xl:h-[200px]  
           rounded-lg 
          "
         >
