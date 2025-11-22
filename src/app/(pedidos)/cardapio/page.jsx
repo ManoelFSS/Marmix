@@ -21,17 +21,59 @@ export default function Cardapio() {
 
   const [marmitaItens, setMarmitaItens] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [sacola, setSacola] = useState([]);
   const [price, setPrice] = useState(0);
   const [count, setCount] = useState(1);
 
+  const [slotImage01, setSlotImage01] = useState("");
+  const [slotImage02, setSlotImage02] = useState("");
+
+
  
+  // const handleAddItem = (item) => {
+  //   const category = item.category;
+    
+  //   const exists = marmitaItens.find((i) => i.id === item.id);
+
+  //   // Se já existe → REMOVE
+  //   if (exists) {
+  //     setMarmitaItens((prev) => prev.filter((i) => i.id !== item.id));
+  //     setSelectedItems((prev) => prev.filter((name) => name !== item.name));
+  //     return;
+  //   }
+
+  //   const categoryLimits = {
+  //     "Feijão": 1,
+  //     "Macarrão": 1,
+  //     "Salada Crua": 1,
+  //     "Salada Cozida": 1,
+  //     "Carnes": 2,
+  //     "Arroz": 1,
+  //   };
+
+  //   const count = marmitaItens.filter((i) => i.category === category).length;
+  //   const limit = categoryLimits[category] || 999;
+
+  //   if (count >= limit) {
+  //     toast.error(`Você so pode ter ${limit} itens da categoria ${category}`, {
+  //       duration: 4000,
+  //     });
+  //     return;
+  //   }
+
+  //   // adiciona item no estado geral
+  //   setMarmitaItens((prev) => [...prev, item]);
+  //   // marca o checkbox
+  //   setSelectedItems((prev) => [...prev, item.name]);
+  // };
+
   const handleAddItem = (item) => {
-    const category = item.category;
+    const categories = Array.isArray(item.category)
+      ? item.category
+      : [item.category];
 
     const exists = marmitaItens.find((i) => i.id === item.id);
 
-    // Se já existe → REMOVE
+    // Se já existe, remove
     if (exists) {
       setMarmitaItens((prev) => prev.filter((i) => i.id !== item.id));
       setSelectedItems((prev) => prev.filter((name) => name !== item.name));
@@ -40,28 +82,34 @@ export default function Cardapio() {
 
     const categoryLimits = {
       "Feijão": 1,
+      "Arroz": 1,
       "Macarrão": 1,
       "Salada Crua": 1,
       "Salada Cozida": 1,
       "Carnes": 2,
-      "Arroz": 1,
     };
 
-    const count = marmitaItens.filter((i) => i.category === category).length;
-    const limit = categoryLimits[category] || 999;
+    // 🔥 Verifica TODAS as categorias do item
+    for (const category of categories) {
+      const limit = categoryLimits[category] || 999;
+      const countInCategory = marmitaItens.filter((i) => {
+        const cat = Array.isArray(i.category) ? i.category : [i.category];
+        return cat.includes(category);
+      }).length;
 
-    if (count >= limit) {
-      toast.error(`Você so pode ter ${limit} itens da categoria ${category}`, {
-        duration: 4000,
-      });
-      return;
+      if (countInCategory >= limit) {
+        return toast.error(
+          `Você só pode ter ${limit} item da categoria ${category}`,
+          { duration: 4000 }
+        );
+      }
     }
 
-    // adiciona item no estado geral
+    // Se passou por todas as validações, adiciona
     setMarmitaItens((prev) => [...prev, item]);
-    // marca o checkbox
     setSelectedItems((prev) => [...prev, item.name]);
   };
+
 
   const handleSacola = () => {
     if (price === 0) return toast.error("Por favor, escolha um valor para a Marmitex.", { duration: 4000 });
@@ -87,49 +135,17 @@ export default function Cardapio() {
     console.log("bag", bag);
     console.log("marmitaItens", marmitaItens);
 
+    const getCarnes = marmitaItens.filter((i) => i.category.includes("Carnes"));
+   
+    if (getCarnes) {
+      setSlotImage01(getCarnes[0] || {});
+      setSlotImage02(getCarnes[1] || {});
+    }
+
   }, [marmitaItens, bag]);
 
-  // useEffect(() => {
-  //   function getUserLocation() {
-  //     if (!navigator.geolocation) {
-  //       console.log("Geolocalização não é suportada pelo seu navegador.");
-  //       return;
-  //     }
 
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         const { latitude, longitude } = position.coords;
-  //         console.log("Latitude:", latitude);
-  //         console.log("Longitude:", longitude);
-
-  //         // Aqui você pode enviar os dados para o backend ou WhatsApp
-  //       },
-  //       (error) => {
-  //         switch (error.code) {
-  //           case error.PERMISSION_DENIED:
-  //             console.log("Usuário negou permissão para acessar localização.");
-  //             toast.error("Por favor, permita o acesso à localização para melhor serviço.", { duration: 4000 });
-  //             getUserLocation();
-  //             break;
-  //           case error.POSITION_UNAVAILABLE:
-  //             console.log("Informações de localização indisponíveis.");
-  //             break;
-  //           case error.TIMEOUT:
-  //             console.log("Tempo esgotado para obter localização.");
-  //             break;
-  //           default:
-  //             console.log("Erro desconhecido.");
-  //         }
-  //       },
-  //       {
-  //         enableHighAccuracy: true, // força usar GPS se disponível
-  //         timeout: 5000,
-  //         maximumAge: 0,
-  //       }
-  //     );
-  //   }
-  //   getUserLocation();
-  // }, []);
+ 
 
   return (
     <section className="relative flex flex-col w-full h-full justify-between bg-white rounded-xl shadow-lg ">
@@ -147,15 +163,17 @@ export default function Cardapio() {
           <img
             src="/mix.png"
             alt="Restaurante"
-            className=" w-[250px] xs:w-[270px] sm:w-[320px] lg:w-[350px] lg:h-[320px]  2xl:w-[400px] 2xl:h-[400px] "
+            className=" w-[250px] xs:w-[270px] sm:w-[320px] lg:w-[325px] lg:h-[320px]  2xl:w-[400px] 2xl:h-[400px] "
           />
-          {marmitaItens.map((item, index) => (
-            <img
-              key={item.id}
-              src={item.image}
-              alt={item.name}
-              style={{ zIndex: item.zIndex }} // controla quem fica por cima
-              className="
+          {marmitaItens
+            .filter((item) => !item.category.includes("Carnes"))
+            .map((item, index) => (
+              <img
+                key={item.id}
+                src={item.image}
+                alt={item.name}
+                style={{ zIndex: item.zIndex }} // controla quem fica por cima
+                className="
                 absolute rounded-full
                 w-[180px] h-[180px]
                 xs:w-[200px] xs:h-[200px]
@@ -163,8 +181,37 @@ export default function Cardapio() {
                 lg:w-[260px] lg:h-[240px]
                 2xl:w-[310px] 2xl:h-[310px]
               "
-            />
-          ))}
+              />
+            ))}
+
+          <img
+            src={slotImage01.image}
+            alt=""
+            className="absolute rounded-full
+            w-[120px] h-[120px]
+            xs:w-[120px] xs:h-[120px]
+            sm:w-[150px] sm:h-[150px]
+            lg:w-[150px] lg:h-[150px]
+            2xl:w-[200px] 2xl:h-[200px]
+            z-90
+            top-6  sm:top-5
+            mr-20
+            "
+          />
+          <img
+            src={slotImage02.image}
+            alt=""
+            className="absolute rounded-full
+            w-[120px] h-[120px]
+            xs:w-[120px] xs:h-[120px]
+            sm:w-[150px] sm:h-[150px]
+            lg:w-[150px] lg:h-[150px]
+            2xl:w-[200px] 2xl:h-[200px]
+            z-90
+             top-19  md:top-25 2xl:top-34
+             mr-15
+            "
+          />
         </div>
 
         <div

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useBagStore } from "@/stores/bagStore";
 import { MdDeleteForever } from "react-icons/md";
 
@@ -9,10 +9,25 @@ export default function CardBag({ pedido }) {
   const addToBag = useBagStore((state) => state.addToBag);
   const bag = useBagStore((state) => state.bag);
 
+  const [slotImage01, setSlotImage01] = useState({});
+  const [slotImage02, setSlotImage02] = useState({});
+
   useEffect(() => {
     console.log("item do pedido", pedido);
     console.log("Bag:", bag);
   }, [bag]);
+
+   useEffect(() => {
+     
+     const getCarnes = pedido.itens.filter((i) =>
+       i.category.includes("Carnes")
+     );
+
+     if (getCarnes) {
+       setSlotImage01(getCarnes[0] || {});
+       setSlotImage02(getCarnes[1] || {});
+     }
+   }, [bag]);
   
 
   const handlePlusItem = (id) => {
@@ -62,15 +77,40 @@ export default function CardBag({ pedido }) {
           className=" w-[110px] h-[110px]"
         />
         {/* Itens escolhidos pelo usuário */}
-        {pedido.itens.map((item, index) => (
-          <img
-            key={item.id}
-            src={item.image}
-            alt={item.name}
-            style={{ zIndex: item.zIndex }}
-            className={`top-5 left-7 absolute rounded-full w-[74px] h-[74px]`}
-          />
-        ))}
+        {pedido.itens
+          .filter((item) => !item.category.includes("Carnes"))
+          .map((item, index) => (
+            <img
+              key={item.id}
+              src={item.image}
+              alt={item.name}
+              style={{ zIndex: item.zIndex }} // controla quem fica por cima
+              className={`top-5 left-7 absolute rounded-full w-[74px] h-[74px]`}
+            />
+          ))}
+
+        <img
+          src={slotImage01.image}
+          alt=""
+          className="absolute rounded-full
+            w-[50px] h-[50px]
+            z-90
+            top-2 
+            mr-5
+            "
+        />
+
+        <img
+          src={slotImage02.image}
+          alt=""
+          className="absolute rounded-full
+            w-[50px] h-[50px]
+            z-90
+             top-9 md:top-25 2xl:top-34
+             mr-3
+            "
+        />
+
         <div className="text-center">
           <div>
             <p className="text-black text-[0.9rem]">Preço Unitário</p>
