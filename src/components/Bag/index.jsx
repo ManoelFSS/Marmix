@@ -10,6 +10,7 @@ import { TbBikeFilled } from "react-icons/tb";
 //stores
 import { useBagStore } from "@/stores/bagStore";
 import { useBagState } from "@/stores/bagState";
+import {gerarMensagemWhatsApp } from "./gerarMensagem";
 
 
 
@@ -19,6 +20,61 @@ export default function Bag() {
 
   const bag = useBagStore((state) => state.bag);
   console.log(bag.length);
+
+  // const handleEnviarPedido = () => {
+  //   navigator.geolocation.getCurrentPosition(
+  //     (pos) => {
+  //       const origem = {
+  //         lat: pos.coords.latitude,
+  //         lng: pos.coords.longitude,
+  //       };
+
+  //       const mensagem = gerarMensagemWhatsapp({
+  //         nomeCliente: "Cliente Exemplo",
+  //         endereco: "Rua Exemplo, 123, Cidade, Estado",
+  //         pedidos: bag, // seu array de pedidos
+  //         origem,
+  //       });
+
+  //       window.open(`https://wa.me/55${74935050160}?text=${mensagem}`);
+  //     },
+  //     (err) => {
+  //       alert("Não foi possível obter sua localização.");
+  //     }
+  //   );
+  // };
+
+  function enviarPedido() {
+    
+    const nomeCliente = "João da Silva";
+    const endereco = "Rua das Flores, 123";
+    const formaPagamento = "Pix";
+
+    // PEGA A LOCALIZAÇÃO DO USUÁRIO
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const latitude = pos.coords.latitude;
+      const longitude = pos.coords.longitude;
+
+      const mensagem = gerarMensagemWhatsApp({
+        pedidos: bag,
+        nomeCliente,
+        endereco,
+        formaPagamento,
+        latitude,
+        longitude,
+      });
+
+      // ABRIR WHATSAPP
+      const numero = "5574935050160"; // coloque o seu aqui
+      const url = `https://wa.me/${numero}?text=${encodeURIComponent(
+        mensagem
+      )}`;
+
+      window.open(url, "_blank");
+    });
+  }
+
+
 
   return (
     <aside
@@ -93,6 +149,7 @@ export default function Bag() {
         </div>
         <div className="h-20  flex gap-2  justify-center items-center">
           <button
+            onClick={enviarPedido}
             className=" flex items-center border-2 border-orange-500  bg-gradient-to-r from-orange-700 to-orange-500 
             hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-700 
             transition-all duration-300 ease-in-out text-white text-[1.2rem] p-3

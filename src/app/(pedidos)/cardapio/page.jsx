@@ -9,6 +9,9 @@ import { useBagState } from "@/stores/bagState";
 import { v4 as uuidv4 } from "uuid";
 import toast, { Toaster } from "react-hot-toast";
 
+import LocationModal from "@/components/LocationModal";
+
+
 
 
 export default function Cardapio() {
@@ -85,6 +88,48 @@ export default function Cardapio() {
     console.log("marmitaItens", marmitaItens);
 
   }, [marmitaItens, bag]);
+
+  // useEffect(() => {
+  //   function getUserLocation() {
+  //     if (!navigator.geolocation) {
+  //       console.log("Geolocalização não é suportada pelo seu navegador.");
+  //       return;
+  //     }
+
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const { latitude, longitude } = position.coords;
+  //         console.log("Latitude:", latitude);
+  //         console.log("Longitude:", longitude);
+
+  //         // Aqui você pode enviar os dados para o backend ou WhatsApp
+  //       },
+  //       (error) => {
+  //         switch (error.code) {
+  //           case error.PERMISSION_DENIED:
+  //             console.log("Usuário negou permissão para acessar localização.");
+  //             toast.error("Por favor, permita o acesso à localização para melhor serviço.", { duration: 4000 });
+  //             getUserLocation();
+  //             break;
+  //           case error.POSITION_UNAVAILABLE:
+  //             console.log("Informações de localização indisponíveis.");
+  //             break;
+  //           case error.TIMEOUT:
+  //             console.log("Tempo esgotado para obter localização.");
+  //             break;
+  //           default:
+  //             console.log("Erro desconhecido.");
+  //         }
+  //       },
+  //       {
+  //         enableHighAccuracy: true, // força usar GPS se disponível
+  //         timeout: 5000,
+  //         maximumAge: 0,
+  //       }
+  //     );
+  //   }
+  //   getUserLocation();
+  // }, []);
 
   return (
     <section className="relative flex flex-col w-full h-full justify-between bg-white rounded-xl shadow-lg ">
@@ -263,6 +308,7 @@ export default function Cardapio() {
           </p>
         </div>
       </div>
+      <LocationModal />
     </section>
   );
 }
