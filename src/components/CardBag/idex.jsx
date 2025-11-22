@@ -107,7 +107,7 @@ export default function CardBag({ pedido }) {
             </li>
           ))}
         </ul>
-        <div className="relativeh-10 flex gap-2 justify-center  items-center text-black pl-2 pr-2 w-full  ">
+        <div className="relative h-10 flex gap-2 justify-center  items-center text-black pl-2 pr-2 w-full  ">
           <div className="flex ">
             <p
               onClick={() => handleCloseItem(pedido.id)}

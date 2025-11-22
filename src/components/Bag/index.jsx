@@ -41,7 +41,7 @@ export default function Bag() {
           >
             <GiShoppingBag className={`text-[3.5rem] text-black`} />
             <span
-              className={`text-[1.3rem] text-white absolute top-4 left-4 z-20 `}
+              className={`text-[1.3rem] text-white absolute top-4 left-5 z-20 `}
             >
               {bag.reduce((acc, item) => acc + item.count, 0) <= 9 &&
               bag.reduce((acc, item) => acc + item.count, 0) > 0
@@ -64,7 +64,7 @@ export default function Bag() {
           />
         </div>
         <section
-          className="p-2 flex-1 h-[74vh] overflow-auto bg-white
+          className="p-2 flex-1 h-[71vh] 2xl:h-[74vh] overflow-auto bg-white
           custom-scroll overflow-y-scroll
         "
         >
@@ -88,15 +88,16 @@ export default function Bag() {
                 })}
             </p>
           </div>
-          <div className="h-20  flex gap-2 justify-center items-center">
+          <div className="h-20  flex gap-4  justify-center items-center">
             <button
-              className="border-2 border-orange-500  bg-gradient-to-r from-orange-700 to-orange-500 
+              className=" flex items-center border-2 border-orange-500  bg-gradient-to-r from-orange-700 to-orange-500 
             hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-700 
             transition-all duration-300 ease-in-out text-white text-[1.2rem] p-3
-            pl-2 pr-2  rounded
+            pl-4 pr-4  rounded
             "
             >
-              <TbBikeFilled /> Pedir delivery
+            <TbBikeFilled className="text-[1.5rem] mr-3" /> 
+            Pedir delivery
             </button>
 
             <button

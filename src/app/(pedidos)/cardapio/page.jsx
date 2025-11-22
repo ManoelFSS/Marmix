@@ -129,7 +129,7 @@ export default function Cardapio() {
             <GiShoppingBag className={`text-[3.5rem] sm:text-[5rem]`} />
             <span
               className={`text-[1.3rem] text-white absolute 
-                top-4 right-4 sm:top-8 sm:right-7
+                top-4 right-4 sm:top-8 sm:right-8
               `}
             >
               {bag?.reduce((acc, item) => acc + item.count, 0) > 0 &&
