@@ -22,7 +22,7 @@ export default function Bag() {
 
   return (
     <aside
-      className={`overflow-hidden h-[100vh]   flex flex-col justify-between border border-amber-500
+      className={`overflow-hidden h-[100svh]   flex flex-col justify-between border border-amber-500
       absolute top-0  right-0 z-50  bg-zinc-300
       rounded-lg shadow-2xs transition-all duration-400 ease-in-out
       ${closeBag ? "w-full xs:w-[420px]  opacity-100" : "w-0  opacity-0"}
