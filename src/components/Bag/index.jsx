@@ -23,7 +23,7 @@ export default function Bag() {
   return (
     <aside
       className={`overflow-hidden h-[100svh]   flex flex-col justify-between border border-amber-500
-      absolute top-0  right-0 z-50  bg-zinc-300
+      absolute top-0  right-0 z-50  bg-zinc-200
       rounded-lg shadow-2xs transition-all duration-400 ease-in-out
       ${closeBag ? "w-full xs:w-[420px]  opacity-100" : "w-0  opacity-0"}
     `}
@@ -49,12 +49,12 @@ export default function Bag() {
               ? "0" + bag.reduce((acc, item) => acc + item.count, 0)
               : bag.reduce((acc, item) => acc + item.count, 0)}
           </span>
-          <p className="text-black text-[1.5rem]">
+          <p className="text-orange-500 font-rubik font-extrabold text-[1.8rem]">
             {bag.length === 0
               ? "Sacola Vazia"
               : bag.reduce((acc, item) => acc + item.count, 0) === 1
-              ? "Pedido"
-              : "Pedidos"}
+              ? "Marmitex"
+              : "Marmitex"}
           </p>
         </div>
         <AiFillCloseSquare
