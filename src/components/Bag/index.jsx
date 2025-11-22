@@ -77,12 +77,12 @@ export default function Bag() {
 
       <div>
         <div
-          className="bg-white p-2 border-t-2 border-gray-200 flex items-center justify-between
-            px-10
+          className="bg-white p-2 border-t-2 border-gray-200 flex gap-2 items-center 
+            pl-2 
           "
         >
-          <p className="text-black text-[1.4rem] ">Total</p>
-          <p className="text-black text-[1.2rem] font-bold ">
+          <p className="text-black text-[1.4rem] font-bold ">Total</p>
+          <p className="text-amber-600 text-[1.4rem] font-bold  ">
             {bag
               .reduce((acc, item) => acc + item.valorTotal, 0)
               .toLocaleString("pt-BR", {

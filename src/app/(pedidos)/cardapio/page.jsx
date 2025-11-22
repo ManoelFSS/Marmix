@@ -7,6 +7,8 @@ import { useBagStore } from "@/stores/bagStore";
 import { useBagState } from "@/stores/bagState";
 
 import { v4 as uuidv4 } from "uuid";
+import toast, { Toaster } from "react-hot-toast";
+
 
 
 export default function Cardapio() {
@@ -46,7 +48,9 @@ export default function Cardapio() {
     const limit = categoryLimits[category] || 999;
 
     if (count >= limit) {
-      alert(`Você só pode adicionar ${limit} item(s) da categoria ${category}`);
+      toast.error(`Você so pode ter ${limit} itens da categoria ${category}`, {
+        duration: 4000,
+      });
       return;
     }
 
@@ -57,7 +61,7 @@ export default function Cardapio() {
   };
 
   const handleSacola = () => {
-    if (price === 0) return console.log("Nenhuma valor selecionado");
+    if (price === 0) return toast.error("Por favor, escolha um valor para a Marmitex.", { duration: 4000 });
 
     addToBag((prev) => [
       ...prev,
@@ -73,6 +77,7 @@ export default function Cardapio() {
     setSelectedItems([]);
     setPrice(0);
     setCount(1);
+    toast.success("Marmitex adicionada à sacola!", { duration: 4000 });
   };
 
   useEffect(() => {

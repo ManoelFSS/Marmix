@@ -3,7 +3,7 @@ import "./globals.css";
 //components  
 import Header from "../components/Header";
 import Bag from "../components/Bag";
-import Sidebar from "../components/Sidebar";
+import { Toaster} from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +37,7 @@ export default function RootLayout({ children }) {
           <Header />
           <section className="p-1 flex-1 overflow-auto  ">{children}</section>
           <Bag />
+          <Toaster />
         </main>
       </body>
     </html>
