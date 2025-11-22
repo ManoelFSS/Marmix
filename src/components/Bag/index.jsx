@@ -22,8 +22,8 @@ export default function Bag() {
 
   return (
     <aside
-      className={`overflow-hidden  h-full 
-      fixed top-0 right-0 z-50  bg-zinc-200
+      className={`overflow-hidden  h-[100svh] 
+      absolute top-0 right-0 z-50  bg-zinc-200
       rounded-lg shadow-2xs transition-all duration-400 ease-in-out
       ${closeBag ? "w-full xs:w-[420px]  opacity-100" : "w-0  opacity-0"}
     `}
@@ -96,8 +96,8 @@ export default function Bag() {
             pl-4 pr-4  rounded
             "
             >
-            <TbBikeFilled className="text-[1.5rem] mr-3" /> 
-            Pedir delivery
+              <TbBikeFilled className="text-[1.5rem] mr-3" />
+              Pedir delivery
             </button>
 
             <button
