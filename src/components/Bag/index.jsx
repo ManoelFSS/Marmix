@@ -28,6 +28,7 @@ export default function Bag() {
   const [numero, setNumero] = useState("");
   const [pagamento, setPagamento] = useState("");
   const [formModalOpen, setFormModalOpen] = useState(false);
+  const [typepedido, setTypepedido] = useState("normal");
 
   const closeBag = useBagState((state) => state.closeBag);
   const setCloseBag = useBagState((state) => state.setCloseBag);
@@ -62,7 +63,29 @@ const hendleresetForm = () => {
 }
 
 
-async function enviarPedido() {
+async function enviarPedido(tipo) {
+  console.log(tipo);
+  
+  // Se for Retirada no Local, não precisa de localização nem dados do cliente
+  if (tipo === "Retirar no local") {
+    const mensagem = gerarMensagemWhatsApp({
+      pedidos: bag,
+      formaPagamento: "Na Retirada",
+      tipoPedido: tipo, // sinaliza para gerar mensagem apropriada
+    });
+
+    const numero = "5574935050160";
+    const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+
+    hendleresetForm();
+    setFormModalOpen(false);
+    setCloseBag(false);
+    addToBag([]); // esvazia a sacola
+
+    window.open(url, "_blank");
+    return;
+  }
+
   const res = await verificarPermissaoLocalizacao();
 
   // 1. Se usuário já negou → NÃO ABRIR MODAL → mostrar aviso
@@ -103,12 +126,15 @@ async function enviarPedido() {
         formaPagamento,
         latitude,
         longitude,
+        typepedido:
+          typepedido === "Retirar no local" ? "retirar_no_local" : "normal",
       });
 
       const numero = "5574935050160";
       const url = `https://wa.me/${numero}?text=${encodeURIComponent(
         mensagem
       )}`;
+
       hendleresetForm();
       setFormModalOpen(false);
       setCloseBag(false);
@@ -117,6 +143,8 @@ async function enviarPedido() {
     });
   }
 }
+
+
 
 
   return (
@@ -193,7 +221,9 @@ async function enviarPedido() {
         {bag.length > 0 && (
           <div className="h-20  flex gap-2  justify-center items-center">
             <button
-              onClick={() => setFormModalOpen(true)}
+              onClick={() => {
+                setFormModalOpen(true);
+              }}
               className=" flex items-center border-2 border-orange-500  bg-gradient-to-r from-orange-700 to-orange-500 
               hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-700 
               transition-all duration-300 ease-in-out text-white text-[1.2rem] p-3
@@ -205,6 +235,9 @@ async function enviarPedido() {
             </button>
 
             <button
+              onClick={() => {
+                enviarPedido("Retirar no local");
+              }}
               className="text-white bg-zinc-700 border-1 border-black font-medium 
               transition-all duration-300 ease-in-out text-[1.2rem] p-3 pl-4 pr-4 
               rounded
@@ -299,7 +332,7 @@ async function enviarPedido() {
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    enviarPedido()
+                    enviarPedido("normal");
                   }}
                   className="border-2 border-orange-500  bg-gradient-to-r from-orange-700 to-orange-500 
                   hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-700 
