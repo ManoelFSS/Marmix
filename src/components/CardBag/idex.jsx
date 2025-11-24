@@ -95,7 +95,7 @@ export default function CardBag({ pedido }) {
           className="absolute rounded-full
             w-[50px] h-[50px]
             z-90
-            top-2 
+            top-3 
             mr-5
             "
         />
@@ -106,7 +106,7 @@ export default function CardBag({ pedido }) {
           className="absolute rounded-full
             w-[50px] h-[50px]
             z-90
-             top-9 md:top-25 2xl:top-34
+             top-9
              mr-3
             "
         />
@@ -136,14 +136,14 @@ export default function CardBag({ pedido }) {
         <ul className=" text-black w-full  ">
           {pedido.itens.map((item) => (
             <li key={item.id} className=" font-bold text-[1.1rem] ml-1 ">
-              {item.category === "Carnes" && item.name}
+              {item.category.includes("Carnes") && item.name}
             </li>
           ))}
         </ul>
         <ul className=" text-black h-27 pt-4 w-full ">
           {pedido.itens.map((item) => (
             <li key={item.id} className="text-[0.8rem] inline-block ml-1.5">
-              {item.category !== "Carnes" && item.name + ","}
+              {!item.category.includes("Carnes") && item.name + ","}
             </li>
           ))}
         </ul>

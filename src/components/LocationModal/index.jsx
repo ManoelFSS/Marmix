@@ -1,61 +1,48 @@
-"use client";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { useOpenStore } from "@/stores/modalState";
 
 export default function LocationModal() {
-  const [open, setOpen] = useState(false);
+  
+ const { open, setOpen, toggleOpen } = useOpenStore();
 
   // Verifica se já tem permissão ao carregar a página
   useEffect(() => {
-    if (navigator.permissions) {
-      navigator.permissions.query({ name: "geolocation" }).then((result) => {
-        console.log("Estado da permissão:", result.state);
+    if (!navigator.permissions) return;
 
-        if (result.state === "granted") {
-          // Já possui permissão → não abre o modal
-          setOpen(false);
-        } else {
-          // prompt (ainda não pediu) ou denied (negado)
-          setOpen(true);
-        }
+    navigator.permissions.query({ name: "geolocation" }).then((result) => {
+      console.log("Permissão atual:", result.state);
 
-        // Ouvinte: se mudar o estado, atualiza automaticamente
-        result.onchange = () => {
-          if (result.state === "granted") {
-            setOpen(false);
-          } else {
-            setOpen(true);
-          }
-        };
-      });
-    } else {
-      // Se permissions API não existir (iOS Safari), apenas abre o modal
-      setOpen(true);
-    }
+      // Se já tiver permitido antes → fecha
+      if (result.state === "granted") setOpen(false);
+
+      // Listener: quando permitir ou negar → fecha
+      result.onchange = () => {
+        console.log("Permissão mudou para:", result.state);
+        setOpen(false); // FECHA EM QUALQUER CASO
+      };
+    });
   }, []);
 
   const handlePermit = () => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        console.log("Localização permitida:", pos.coords);
-        setOpen(false);
+        console.log("Usuário PERMITIU:", pos.coords);
+        setOpen(false); // fecha ao permitir
       },
       (error) => {
-        console.log("Erro ao solicitar geolocalização:", error);
-        // Se negar, o modal NÃO fecha
-        setOpen(true);
-      },
-      { enableHighAccuracy: true }
+        console.log("Usuário NEGOU:", error);
+        setOpen(false); // fecha ao negar
+      }
     );
   };
 
   return (
     <>
       {open && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-999">
           <div className="bg-white rounded-lg shadow-xl p-6 w-11/12 max-w-md">
             <h2 className="text-[1.7rem] text-center  font-bold text-orange-500 mb-2">
-              Permitir localização
+              Acesso à Localização
             </h2>
 
             <p className="text-gray-600 mb-2 text-[1rem]">
@@ -64,22 +51,19 @@ export default function LocationModal() {
             </p>
             <p className="text-gray-600 mb-6 text-[0.9rem]">
               Usamos sua localização só para encontrar seu endereço mais rápido
-              e agilizar a entrega.
+              e agilizar na entrega.
             </p>
             <div className="flex gap-3 justify-center">
               <button
-                onClick={() => {
-                  setOpen(false)
-                  toast.error("Você precisa permitir o acesso à localização para continuar.", { duration: 6000 });
-                }}
-                className="px-4 py-2 bg-gray-400 rounded-lg text-white"
+                onClick={() => setOpen(false)}
+                className="px-4 py-2 bg-gray-300 rounded-lg text-gray-800"
               >
                 Cancelar
               </button>
 
               <button
                 onClick={handlePermit}
-                className="px-4 py-2 bg-gradient-to-r from-orange-700 to-orange-500 hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-700 text-white rounded-lg"
+                className="px-4 py-2 bg-gradient-to-r from-orange-700 to-orange-500 text-white rounded-lg"
               >
                 Permitir acesso
               </button>

@@ -26,9 +26,9 @@ export function gerarMensagemWhatsApp({
     )} Marmitex de R$ ${pedido.price.toFixed(2)}\n`;
 
     // Primeiro as carnes em negrito
-    const carnes = pedido.itens.filter((i) => i.category === "Carnes");
-    const outros = pedido.itens.filter((i) => i.category !== "Carnes");
-
+    const carnes = pedido.itens.filter((i) => i.category.includes("Carnes"));
+    const outros = pedido.itens.filter((i) => !i.category.includes("Carnes"));
+    
     // Carnes no topo
     carnes.forEach((c) => {
       mensagemPedidos += `- *${c.name}*\n`;
@@ -47,7 +47,7 @@ export function gerarMensagemWhatsApp({
 
   const totalGeral = pedidos.reduce((acc, p) => acc + p.valorTotal, 0);
 
-  const final = `*Valor geral:* R$ ${totalGeral.toFixed(
+  const final = `*Valor Total dos Pedidos:* R$ ${totalGeral.toFixed(
     2
   )}\n*Pagamento:* ${formaPagamento}\n`;
 

@@ -27,44 +27,7 @@ export default function Cardapio() {
   const [slotImage01, setSlotImage01] = useState("");
   const [slotImage02, setSlotImage02] = useState("");
 
-
- 
-  // const handleAddItem = (item) => {
-  //   const category = item.category;
-    
-  //   const exists = marmitaItens.find((i) => i.id === item.id);
-
-  //   // Se já existe → REMOVE
-  //   if (exists) {
-  //     setMarmitaItens((prev) => prev.filter((i) => i.id !== item.id));
-  //     setSelectedItems((prev) => prev.filter((name) => name !== item.name));
-  //     return;
-  //   }
-
-  //   const categoryLimits = {
-  //     "Feijão": 1,
-  //     "Macarrão": 1,
-  //     "Salada Crua": 1,
-  //     "Salada Cozida": 1,
-  //     "Carnes": 2,
-  //     "Arroz": 1,
-  //   };
-
-  //   const count = marmitaItens.filter((i) => i.category === category).length;
-  //   const limit = categoryLimits[category] || 999;
-
-  //   if (count >= limit) {
-  //     toast.error(`Você so pode ter ${limit} itens da categoria ${category}`, {
-  //       duration: 4000,
-  //     });
-  //     return;
-  //   }
-
-  //   // adiciona item no estado geral
-  //   setMarmitaItens((prev) => [...prev, item]);
-  //   // marca o checkbox
-  //   setSelectedItems((prev) => [...prev, item.name]);
-  // };
+  
 
   const handleAddItem = (item) => {
     const categories = Array.isArray(item.category)
@@ -112,6 +75,8 @@ export default function Cardapio() {
 
 
   const handleSacola = () => {
+    if( marmitaItens.length <= 2 ) return toast.error("Por favor, escolha no minimo 3 itens do cardápio para o Marmitex.", { duration: 6000 });
+
     if (price === 0) return toast.error("Por favor, escolha um valor para a Marmitex.", { duration: 4000 });
 
     addToBag((prev) => [
@@ -356,6 +321,7 @@ export default function Cardapio() {
         </div>
       </div>
       <LocationModal />
+      
     </section>
   );
 }
