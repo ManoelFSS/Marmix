@@ -346,7 +346,7 @@ async function enviarPedido(tipo) {
           </div>
         </form>
       )}
-      <LocationModal />
+      <LocationModal enviarPedido={enviarPedido} />
       {estrucaomodal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-8">
           <div className="bg-white w-full max-w-sm rounded-2xl shadow-xl p-4 animate-fadeIn">
