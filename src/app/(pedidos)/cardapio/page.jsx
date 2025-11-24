@@ -1,20 +1,21 @@
 "use client";
 import { useState, useEffect } from "react";
 import { menuItems } from "@/app/(pedidos)/cardapio/data";
+import { useMarmitex } from "@/context/MarmitexContext";
+
 import { GiShoppingBag } from "react-icons/gi";
 // stores
 import { useBagStore } from "@/stores/bagStore";
 import { useBagState } from "@/stores/bagState";
 
 import { v4 as uuidv4 } from "uuid";
-import toast, { Toaster } from "react-hot-toast";
-
+import toast from "react-hot-toast";
 import LocationModal from "@/components/LocationModal";
 
-
-
-
 export default function Cardapio() {
+  const { items } = useMarmitex();
+  const itemsActive = items.filter((item) => item.status === true);
+ 
   const setCloseBag = useBagState((state) => state.setCloseBag);
   const addToBag = useBagStore((state) => state.addToBag);
   const bag = useBagStore((state) => state.bag);
@@ -27,7 +28,6 @@ export default function Cardapio() {
   const [slotImage01, setSlotImage01] = useState("");
   const [slotImage02, setSlotImage02] = useState("");
 
-  
 
   const handleAddItem = (item) => {
     const categories = Array.isArray(item.category)
@@ -135,7 +135,7 @@ export default function Cardapio() {
             .map((item, index) => (
               <img
                 key={item.id}
-                src={item.image}
+                src={item.imageURL}
                 alt={item.name}
                 style={{ zIndex: item.zIndex }} // controla quem fica por cima
                 className="
@@ -150,7 +150,7 @@ export default function Cardapio() {
             ))}
 
           <img
-            src={slotImage01.image}
+            src={slotImage01.imageURL}
             alt=""
             className="absolute rounded-full
             w-[120px] h-[120px]
@@ -164,7 +164,7 @@ export default function Cardapio() {
             "
           />
           <img
-            src={slotImage02.image}
+            src={slotImage02.imageURL}
             alt=""
             className="absolute rounded-full
             w-[120px] h-[120px]
@@ -254,7 +254,7 @@ export default function Cardapio() {
           rounded-lg 
          "
         >
-          {menuItems.map((item, index) => (
+          {itemsActive.map((item, index) => (
             <div
               onClick={() => handleAddItem(item)}
               key={index}
@@ -321,7 +321,6 @@ export default function Cardapio() {
         </div>
       </div>
       <LocationModal />
-      
     </section>
   );
 }

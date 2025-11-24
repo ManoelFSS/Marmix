@@ -82,7 +82,7 @@ export default function CardBag({ pedido }) {
           .map((item, index) => (
             <img
               key={item.id}
-              src={item.image}
+              src={item.imageURL}
               alt={item.name}
               style={{ zIndex: item.zIndex }} // controla quem fica por cima
               className={`top-5 left-7 absolute rounded-full w-[74px] h-[74px]`}
@@ -90,7 +90,7 @@ export default function CardBag({ pedido }) {
           ))}
 
         <img
-          src={slotImage01.image}
+          src={slotImage01.imageURL}
           alt=""
           className="absolute rounded-full
             w-[50px] h-[50px]
@@ -101,7 +101,7 @@ export default function CardBag({ pedido }) {
         />
 
         <img
-          src={slotImage02.image}
+          src={slotImage02.imageURL}
           alt=""
           className="absolute rounded-full
             w-[50px] h-[50px]

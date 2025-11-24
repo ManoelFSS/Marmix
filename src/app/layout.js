@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "../components/Header";
 import Bag from "../components/Bag";
 import { Toaster} from "react-hot-toast";
+import { MarmitexProvider } from "@/context/MarmitexContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,12 +34,14 @@ export default function RootLayout({ children }) {
       </head>
 
       <body className="h-full">
-        <main className="relative bg-gray-200 h-full flex flex-col ">
-          <Header />
-          <section className="p-1 flex-1 overflow-auto  ">{children}</section>
-          <Bag />
-          <Toaster />
-        </main>
+        <MarmitexProvider>
+          <main className="relative bg-gray-200 h-full flex flex-col ">
+            <Header />
+            <section className="p-1 flex-1 overflow-auto  ">{children}</section>
+            <Bag />
+            <Toaster />
+          </main>
+        </MarmitexProvider>
       </body>
     </html>
   );
