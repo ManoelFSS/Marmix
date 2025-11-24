@@ -49,7 +49,10 @@ export function gerarMensagemWhatsApp({
 
   const final = `*Valor Total dos Pedidos:* R$ ${totalGeral.toFixed(
     2
-  )}\n*Pagamento:* ${formaPagamento}\n`;
+  )}\n*Forma de Pagamento:* ${formaPagamento}\n${
+    formaPagamento === "pix" &&
+    "\nChave PIX: (74) 98816-1999\nNeuma Maria de souza\nPor favor enviar comprovante!\n"
+  }\n\n*Obrigado pela preferação!* 🍽️😊\n`;
 
   return header + clienteInfo + rota + mensagemPedidos + final;
 }
