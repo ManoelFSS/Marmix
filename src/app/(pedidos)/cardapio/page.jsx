@@ -159,8 +159,9 @@ export default function Cardapio() {
             lg:w-[150px] lg:h-[150px]
             2xl:w-[200px] 2xl:h-[200px]
             z-90
-            top-6  sm:top-5
+            top-6  sm:top-7
             mr-20
+            rotate-130
             "
           />
           <img
@@ -173,8 +174,9 @@ export default function Cardapio() {
             lg:w-[150px] lg:h-[150px]
             2xl:w-[200px] 2xl:h-[200px]
             z-90
-             top-19  md:top-25 2xl:top-34
+             top-19  md:top-25 2xl:top-38
              mr-15
+             rotate-130
             "
           />
         </div>
