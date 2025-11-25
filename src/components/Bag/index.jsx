@@ -336,21 +336,17 @@ async function enviarPedido(tipo) {
                     e.preventDefault();
                     const hendlpemissao = async () => {
                       //////////////
-                      // 2. Se ainda não respondeu (prompt) → abrir modal de permissão
-                      // if (res.state === "prompt") {
-                      //   setFormModalOpen(false);
-                      //   setOpen(true); // mantém modal aberto até aceitar ou negar
-                      //   return;
-                      // }
-                      
+
                       const res = await verificarPermissaoLocalizacao();
+                      console.log(res);
                       // 3. Se já permitiu → seguir fluxo normal
-                      if (res.state === "granted") {
-                        await enviarPedido("normal");
-                        setFormModalOpen(false);
-                        return;
-                      }
-                      setOpen(true);
+                       if (res.state === "granted") {
+                         await enviarPedido("normal");
+                         setFormModalOpen(false);
+                         console.log("permissão concedida");
+                       } else {
+                         setOpen(true);
+                       }
                     };
                     hendlpemissao();
                   }}
