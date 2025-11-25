@@ -38,13 +38,13 @@ export default function Bag() {
   console.log(bag.length);
 
 
- function verificarPermissaoLocalizacao() {
+ async function verificarPermissaoLocalizacao() {
    if (!navigator.permissions) {
      return { state: "unsupported", allowed: false };
    }
 
    try {
-     const perm =  navigator.permissions.query({ name: "geolocation" });
+     const perm = await navigator.permissions.query({ name: "geolocation" });
 
      return {
        state: perm.state, // "granted" | "denied" | "prompt"
