@@ -156,30 +156,30 @@ export default function Cardapio() {
             src={slotImage01.imageURL}
             alt=""
             className="absolute rounded-full
-            w-[120px] h-[120px]
+            w-[100px] h-[100px]
             xs:w-[120px] xs:h-[120px]
             sm:w-[150px] sm:h-[150px]
             lg:w-[150px] lg:h-[150px]
-            2xl:w-[200px] 2xl:h-[200px]
+            2xl:w-[180px] 2xl:h-[180px]
             z-90
-            top-6  sm:top-7
+            top-8  sm:top-7
             mr-20
-            rotate-130
+            rotate-0
             "
           />
           <img
             src={slotImage02.imageURL}
             alt=""
             className="absolute rounded-full
-            w-[120px] h-[120px]
+            w-[100px] h-[100px]
             xs:w-[120px] xs:h-[120px]
             sm:w-[150px] sm:h-[150px]
             lg:w-[150px] lg:h-[150px]
-            2xl:w-[200px] 2xl:h-[200px]
+            2xl:w-[180px] 2xl:h-[180px]
             z-90
-             top-19  md:top-25 2xl:top-38
-             mr-15
-             rotate-130
+             top-24  md:top-25 2xl:top-32
+             mr-10
+             rotate-0
             "
           />
         </div>
