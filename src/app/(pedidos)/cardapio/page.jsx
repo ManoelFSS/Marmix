@@ -100,7 +100,7 @@ export default function Cardapio() {
     console.log("bag", bag);
     console.log("marmitaItens", marmitaItens);
 
-    const getCarnes = marmitaItens.filter((i) => i.category.includes("Carnes"));
+    const getCarnes = marmitaItens.filter((i) => i.category.includes("Carnes") && i.name !== "Feijoada");
    
     if (getCarnes) {
       setSlotImage01(getCarnes[0] || {});
@@ -131,7 +131,10 @@ export default function Cardapio() {
             className=" w-[250px] xs:w-[270px] sm:w-[320px] lg:w-[325px] lg:h-[320px]  2xl:w-[400px] 2xl:h-[400px] "
           />
           {marmitaItens
-            .filter((item) => !item.category.includes("Carnes"))
+            .filter(
+              (item) =>
+                !item.category.includes("Carnes") || item.name === "Feijoada"
+            )
             .map((item, index) => (
               <img
                 key={item.id}
