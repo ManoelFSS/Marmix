@@ -35,9 +35,11 @@ export default function RootLayout({ children }) {
 
       <body className="h-full">
         <MarmitexProvider>
-          <main className="relative bg-gray-200 h-full flex flex-col ">
+          <main className=" bg-gray-200 h-full flex flex-col ">
             <Header />
-            <section className="p-1 flex-1 overflow-auto  ">{children}</section>
+            <section className="relative p-1 flex-1 overflow-auto  ">
+              {children}
+            </section>
             <Bag />
             <Toaster />
           </main>

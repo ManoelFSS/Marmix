@@ -188,7 +188,7 @@ export default function MenuAdmin() {
       </div>
 
       {/* Modal */}
-      {modalOpen && (
+      {modalOpen && 
         <div className="absolute flex inset-0 bg-black/40 pt-10">
           <div className="m-auto bg-white p-6 rounded-xl shadow-xl w-full max-w-lg">
             <h2 className="text-2xl font-bold mb-4 text-gray-800">
@@ -305,7 +305,7 @@ export default function MenuAdmin() {
             </form>
           </div>
         </div>
-      )}
+      }
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useOpenStore } from "@/stores/modalState";
+import toast from "react-hot-toast";
 
 export default function LocationModal({ setFormModalOpen }) {
   const { open, setOpen, toggleOpen } = useOpenStore();
@@ -14,13 +15,12 @@ export default function LocationModal({ setFormModalOpen }) {
 
       // Se já tiver permitido antes → fecha
       if (result.state === "granted") {
-        if (setFormModalOpen) setFormModalOpen(true);
         setOpen(false);
       }
 
       // Listener: quando permitir ou negar → fecha
       result.onchange = () => {
-         if (setFormModalOpen) setFormModalOpen(true);
+         
         console.log("Permissão mudou para:", result.state);
         setOpen(false); // FECHA EM QUALQUER CASO
       };
@@ -30,15 +30,17 @@ export default function LocationModal({ setFormModalOpen }) {
   const handlePermit = () => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        if (setFormModalOpen) setFormModalOpen(true);
         setOpen(false); // fecha ao permitir
+        toast.success("Localização permitida! agora so clicar no botão pedir deleivery", { duration: 10000 });
       },
       (error) => {
         console.log("Usuário NEGOU:", error);
         setOpen(false); // fecha ao negar
       }
     );
+    
   };
+
 
   return (
     <>
