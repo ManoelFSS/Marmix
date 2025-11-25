@@ -335,18 +335,18 @@ async function enviarPedido(tipo) {
                   onClick={(e) => {
                     e.preventDefault();
                     const hendlpemissao = async () => {
-                      //////////////
-
                       const res = await verificarPermissaoLocalizacao();
                       console.log(res);
-                      // 3. Se já permitiu → seguir fluxo normal
-                       if (res.state === "granted") {
-                         await enviarPedido("normal");
-                         setFormModalOpen(false);
-                         console.log("permissão concedida");
-                       } else {
-                         setOpen(true);
-                       }
+                      
+                      if (res.state === "prompt") {
+                        setOpen(true);
+                        console.log("permissão negada");
+                        return;
+                      }
+                     
+                      enviarPedido("normal");
+                      console.log("permissão concedida");
+                      
                     };
                     hendlpemissao();
                   }}
