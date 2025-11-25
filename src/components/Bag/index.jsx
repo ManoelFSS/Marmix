@@ -98,6 +98,7 @@ async function enviarPedido(tipo) {
 
   // 2. Se ainda não respondeu (prompt) → abrir modal de permissão
   if (res.state === "prompt") {
+    setFormModalOpen(false);
     setOpen(true); // mantém modal aberto até aceitar ou negar
     return;
   }

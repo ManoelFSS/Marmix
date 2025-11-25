@@ -22,12 +22,12 @@ export default function LocationModal({enviarPedido}) {
     });
   }, []);
 
-  const handlePermit = () => {
+  const handlePermit =   () => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         console.log("Usuário PERMITIU:", pos.coords);
-        setOpen(false); // fecha ao permitir
         enviarPedido("normal"); // chama o envio do pedido
+        setOpen(false); // fecha ao permitir
       },
       (error) => {
         console.log("Usuário NEGOU:", error);
