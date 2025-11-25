@@ -12,6 +12,8 @@ import { v4 as uuidv4 } from "uuid";
 import toast from "react-hot-toast";
 import LocationModal from "@/components/LocationModal";
 
+import { FaClock } from "react-icons/fa6";
+
 export default function Cardapio() {
   const { items } = useMarmitex();
   const itemsActive = items.filter((item) => item.status === true);
@@ -255,34 +257,46 @@ export default function Cardapio() {
         <section
           className=" flex flex-wrap gap-1  p-1  overflow-auto custom-scroll overflow-y-scroll
           border border-amber-600 justify-center items-center  
-          h-[130px] x:h-[100px] xxs:h-[180px] sm:h-[170px] lg:h-[150px] 2xl:h-[200px]  
+          h-[160px] x:h-[180px] xxs:h-[180px] sm:h-[170px] lg:h-[150px] 2xl:h-[200px]  
           rounded-lg 
          "
         >
-          {itemsActive.map((item, index) => (
-            <div
-              onClick={() => handleAddItem(item)}
-              key={index}
-              className="h-7 mb-1 flex  gap-1 pl-1  bg-zinc-100 w-[160px]
+          {itemsActive.length > 0 ? (
+            itemsActive.map((item, index) => (
+              <div
+                onClick={() => handleAddItem(item)}
+                key={index}
+                className="h-7 mb-1 flex  gap-1 pl-1  bg-zinc-100 w-[160px]
               
                items-center  "
-            >
-              <input
-                className="h-4 w-4"
-                type="checkbox"
-                id={item.name}
-                checked={selectedItems.includes(item.name)}
-                readOnly
-              />
-              <label
-                onClick={(e) => e.stopPropagation()}
-                className="text-black text-[0.9rem]"
-                htmlFor={item.name}
               >
-                {item.name}
-              </label>
+                <input
+                  className="h-4 w-4"
+                  type="checkbox"
+                  id={item.name}
+                  checked={selectedItems.includes(item.name)}
+                  readOnly
+                />
+                <label
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-black text-[0.9rem]"
+                  htmlFor={item.name}
+                >
+                  {item.name}
+                </label>
+              </div>
+            ))
+          ) : (
+            <div className="flex flex-wrap justify-center gap-2 items-center text-center bg-yellow-100 p-5 rounded-lg shadow-md
+            max-w-[95%]
+            ">
+              <p className="text-black text-[1rem]  rounded-lg shadow-neutral-300">
+                Olá! Tudo certo por aqui!. Cardápio disponível todos os dias das
+                9h30 às 14h00.
+              </p>
+              <FaClock className="text-black animate-spin text-[2rem]" />
             </div>
-          ))}
+          )}
         </section>
       </div>
 

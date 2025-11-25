@@ -23,6 +23,9 @@ export default function Home() {
           <p className="text-black text-center text-[1rem] ">
             Prox: Hotel Grande Serra
           </p>
+          <p className="text-black text-center text-[1rem] ">
+            Horario de Funcionamento das 10h30 a 14h00
+          </p>
         </div>
 
         <div className="text-center  flex flex-col gap-3  items-center pb-2">

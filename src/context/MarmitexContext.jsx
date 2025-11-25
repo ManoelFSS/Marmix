@@ -31,9 +31,9 @@ export function MarmitexProvider({ children }) {
         const prevItem = prevItemsRef.current.find((i) => i.id === item.id);
         if (prevItem && prevItem.status !== item.status) {
           if (item.status) {
-            toast.success(`Item "${item.name}" disponível`, { duration: 10000 });
+            toast.success(`Item "${item.name}" disponível`, { duration: 6000 });
           } else {
-            toast.error(`Item "${item.name}" indisponível`, { duration: 10000 });
+            toast.error(`Item "${item.name}" indisponível`, { duration: 6000 });
           }
         }
       });
