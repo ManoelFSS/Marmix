@@ -74,7 +74,7 @@ async function enviarPedido(tipo) {
       tipoPedido: tipo, // sinaliza para gerar mensagem apropriada
     });
 
-    const numero = "5574935050160";
+    const numero = "5574988161999";
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
 
     hendleresetForm();
