@@ -63,7 +63,7 @@ const hendleresetForm = () => {
 }
 
 
- function enviarPedido(tipo) {
+async function enviarPedido(tipo) {
   console.log(tipo);
   
   // Se for Retirada no Local, não precisa de localização nem dados do cliente
@@ -86,7 +86,7 @@ const hendleresetForm = () => {
     return;
   }
 
-  const res = verificarPermissaoLocalizacao();
+  const res = await verificarPermissaoLocalizacao();
 
   // 1. Se usuário já negou → NÃO ABRIR MODAL → mostrar aviso
   if (res.state === "denied") {
