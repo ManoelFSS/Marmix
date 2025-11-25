@@ -103,6 +103,7 @@ async function enviarPedido(tipo) {
     return;
   }
 
+
   // 3. Se já permitiu → seguir fluxo normal
   if (res.state === "granted") {
     if (!name || !enderess || !numero || !pagamento) {
@@ -333,7 +334,25 @@ async function enviarPedido(tipo) {
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    enviarPedido("normal");
+                    const hendlpemissao = async () => {
+                      //////////////
+                      // 2. Se ainda não respondeu (prompt) → abrir modal de permissão
+                      // if (res.state === "prompt") {
+                      //   setFormModalOpen(false);
+                      //   setOpen(true); // mantém modal aberto até aceitar ou negar
+                      //   return;
+                      // }
+                      
+                      const res = await verificarPermissaoLocalizacao();
+                      // 3. Se já permitiu → seguir fluxo normal
+                      if (res.state === "granted") {
+                        await enviarPedido("normal");
+                        setFormModalOpen(false);
+                        return;
+                      }
+                      setOpen(true);
+                    };
+                    hendlpemissao();
                   }}
                   className="border-2 border-orange-500  bg-gradient-to-r from-orange-700 to-orange-500 
                   hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-700 

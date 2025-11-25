@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useOpenStore } from "@/stores/modalState";
 
-export default function LocationModal({enviarPedido}) {
+export default function LocationModal() {
   const { open, setOpen, toggleOpen } = useOpenStore();
 
   // Verifica se já tem permissão ao carregar a página
@@ -26,7 +26,6 @@ export default function LocationModal({enviarPedido}) {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         console.log("Usuário PERMITIU:", pos.coords);
-        enviarPedido("normal"); // chama o envio do pedido
         setOpen(false); // fecha ao permitir
       },
       (error) => {
