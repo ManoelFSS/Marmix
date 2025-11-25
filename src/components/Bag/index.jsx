@@ -223,8 +223,16 @@ async function enviarPedido(tipo) {
         {bag.length > 0 && (
           <div className="h-20  flex gap-2  justify-center items-center">
             <button
-              onClick={() => {
-                setFormModalOpen(true);
+              onClick={async () => {
+                const res = await verificarPermissaoLocalizacao();
+
+                if (res.state === "granted") {
+                  setFormModalOpen(true); // já permitido → abre form
+                } else if (res.state === "prompt") {
+                  setOpen(true); // ainda não respondeu → abre LocationModal
+                } else {
+                  setEstrucaomodal(true); // negado → mostra aviso
+                }
               }}
               className=" flex items-center border-2 border-orange-500  bg-gradient-to-r from-orange-700 to-orange-500 
               hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-700 
@@ -334,21 +342,7 @@ async function enviarPedido(tipo) {
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    const hendlpemissao = async () => {
-                      const res = await verificarPermissaoLocalizacao();
-                      console.log(res);
-                      
-                      if (res.state === "prompt") {
-                        setOpen(true);
-                        console.log("permissão negada");
-                        return;
-                      }
-                     
-                      enviarPedido("normal");
-                      console.log("permissão concedida");
-                      
-                    };
-                    hendlpemissao();
+                    enviarPedido("normal");
                   }}
                   className="border-2 border-orange-500  bg-gradient-to-r from-orange-700 to-orange-500 
                   hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-700 
@@ -362,7 +356,7 @@ async function enviarPedido(tipo) {
           </div>
         </form>
       )}
-      <LocationModal enviarPedido={enviarPedido} />
+      <LocationModal setFormModalOpen={setFormModalOpen} />
       {estrucaomodal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-8">
           <div className="bg-white w-full max-w-sm rounded-2xl shadow-xl p-4 animate-fadeIn">

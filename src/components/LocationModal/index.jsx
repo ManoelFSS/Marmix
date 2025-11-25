@@ -1,7 +1,8 @@
+"use client";
 import { useEffect, useState } from "react";
 import { useOpenStore } from "@/stores/modalState";
 
-export default function LocationModal() {
+export default function LocationModal({ setFormModalOpen }) {
   const { open, setOpen, toggleOpen } = useOpenStore();
 
   // Verifica se já tem permissão ao carregar a página
@@ -12,20 +13,24 @@ export default function LocationModal() {
       console.log("Permissão atual:", result.state);
 
       // Se já tiver permitido antes → fecha
-      if (result.state === "granted") setOpen(false);
+      if (result.state === "granted") {
+        if (setFormModalOpen) setFormModalOpen(true);
+        setOpen(false);
+      }
 
       // Listener: quando permitir ou negar → fecha
       result.onchange = () => {
+         if (setFormModalOpen) setFormModalOpen(true);
         console.log("Permissão mudou para:", result.state);
         setOpen(false); // FECHA EM QUALQUER CASO
       };
     });
   }, []);
 
-  const handlePermit =   () => {
+  const handlePermit = () => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        console.log("Usuário PERMITIU:", pos.coords);
+        if (setFormModalOpen) setFormModalOpen(true);
         setOpen(false); // fecha ao permitir
       },
       (error) => {
