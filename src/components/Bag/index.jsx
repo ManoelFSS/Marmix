@@ -38,13 +38,13 @@ export default function Bag() {
   console.log(bag.length);
 
 
- async function verificarPermissaoLocalizacao() {
+ function verificarPermissaoLocalizacao() {
    if (!navigator.permissions) {
      return { state: "unsupported", allowed: false };
    }
 
    try {
-     const perm = await navigator.permissions.query({ name: "geolocation" });
+     const perm =  navigator.permissions.query({ name: "geolocation" });
 
      return {
        state: perm.state, // "granted" | "denied" | "prompt"
@@ -63,7 +63,7 @@ const hendleresetForm = () => {
 }
 
 
-async function enviarPedido(tipo) {
+ function enviarPedido(tipo) {
   console.log(tipo);
   
   // Se for Retirada no Local, não precisa de localização nem dados do cliente
@@ -86,7 +86,7 @@ async function enviarPedido(tipo) {
     return;
   }
 
-  const res = await verificarPermissaoLocalizacao();
+  const res = verificarPermissaoLocalizacao();
 
   // 1. Se usuário já negou → NÃO ABRIR MODAL → mostrar aviso
   if (res.state === "denied") {
