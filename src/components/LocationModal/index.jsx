@@ -20,8 +20,7 @@ export default function LocationModal({ setFormModalOpen }) {
 
       // Listener: quando permitir ou negar → fecha
       result.onchange = () => {
-         
-        console.log("Permissão mudou para:", result.state);
+         toast.success("Localização permitida! agora so clicar no botão pedir deleivery", { duration: 10000 });
         setOpen(false); // FECHA EM QUALQUER CASO
       };
     });
