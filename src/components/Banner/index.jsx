@@ -3,7 +3,7 @@
 export default function Banner() {
   return (
     <div
-      className="relative  xl:flex justify-center items-center h-122 xs:h-110 sm:h-125 
+      className="relative  xl:flex justify-center items-center h-120 xs:h-110 sm:h-125 
       lg:h-190 w-full rounded-xl   shadow-lg bg-gradient-to-r from-orange-700 to-orange-500 
         sm:px-20
       "
