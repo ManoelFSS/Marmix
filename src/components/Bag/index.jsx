@@ -116,7 +116,7 @@ async function enviarPedido(tipo) {
        typepedido === "Retirar no local" ? "retirar_no_local" : "normal",
    });
 
-   const tel = "5574935050160";
+   const tel = "5574988161999";
    const url = `https://wa.me/${tel}?text=${encodeURIComponent(mensagem)}`;
 
    hendleresetForm();
