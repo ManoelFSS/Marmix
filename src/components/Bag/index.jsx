@@ -231,7 +231,8 @@ async function enviarPedido(tipo) {
     addToBag([]);
 
     // abre WhatsApp SEM BLOQUEIO
-    window.location.href = url;
+    // window.location.href = url;
+    window.open(url, "_blank");
   }
 }
 
