@@ -73,8 +73,8 @@ async function enviarPedido(tipo) {
       tipoPedido: tipo, // sinaliza para gerar mensagem apropriada
     });
 
-    const numero = "5574988161999";
-    const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+    const tel = "5574988161999";
+    const url = `https://wa.me/${tel}?text=${encodeURIComponent(mensagem)}`;
 
     hendleresetForm();
     setFormModalOpen(false);
@@ -85,7 +85,8 @@ async function enviarPedido(tipo) {
     return;
   }
 
-  if (!name || !enderess || !numero || !pagamento) {
+
+  if (!name || !enderess  || !pagamento) {
     toast.error("Por favor, preencha todos os campos do formulário.", {
       duration: 4000,
     });
@@ -96,32 +97,33 @@ async function enviarPedido(tipo) {
   const endereco = `${enderess}, Nº ${numero}`;
   const formaPagamento = pagamento;
 
+  let latitude = null;
+  let longitude = null;
+
   navigator.geolocation.getCurrentPosition((pos) => {
-    const latitude = pos.coords.latitude;
-    const longitude = pos.coords.longitude;
-
-    const mensagem = gerarMensagemWhatsApp({
-      pedidos: bag,
-      nomeCliente,
-      endereco,
-      formaPagamento,
-      latitude,
-      longitude,
-      typepedido:
-        typepedido === "Retirar no local" ? "retirar_no_local" : "normal",
-    });
-
-    const numero = "5574935050160";
-    const url = `https://wa.me/${numero}?text=${encodeURIComponent(
-      mensagem
-    )}`;
-
-    hendleresetForm();
-    setFormModalOpen(false);
-    setCloseBag(false);
-    addToBag([]); // esvazia a sacola
-    window.open(url, "_blank");
+    latitude = pos.coords.latitude;
+    longitude = pos.coords.longitude;
   });
+
+   const mensagem = gerarMensagemWhatsApp({
+     pedidos: bag,
+     nomeCliente,
+     endereco,
+     formaPagamento,
+     latitude,
+     longitude,
+     typepedido:
+       typepedido === "Retirar no local" ? "retirar_no_local" : "normal",
+   });
+
+   const tel = "5574935050160";
+   const url = `https://wa.me/${tel}?text=${encodeURIComponent(mensagem)}`;
+
+   hendleresetForm();
+   setFormModalOpen(false);
+   setCloseBag(false);
+   addToBag([]); // esvazia a sacola
+   window.open(url, "_blank");
 
 }
 
