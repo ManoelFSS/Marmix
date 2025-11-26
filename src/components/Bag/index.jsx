@@ -63,15 +63,99 @@ const hendleresetForm = () => {
 }
 
 
-async function enviarPedido(tipo) {
-  console.log(tipo);
+// async function enviarPedido(tipo) {
   
-  // Se for Retirada no Local, não precisa de localização nem dados do cliente
+//   // Se for Retirada no Local, não precisa de localização nem dados do cliente
+//   if (tipo === "Retirar no local") {
+//     const mensagem = gerarMensagemWhatsApp({
+//       pedidos: bag,
+//       formaPagamento: "Na Retirada",
+//       tipoPedido: tipo, // sinaliza para gerar mensagem apropriada
+//     });
+
+//     const numero = "5574988161999";
+//     const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+
+//     hendleresetForm();
+//     setFormModalOpen(false);
+//     setCloseBag(false);
+//     addToBag([]); // esvazia a sacola
+
+//     window.open(url, "_blank");
+//     return;
+//   }
+
+//   const res = await verificarPermissaoLocalizacao();
+
+//   // 1. Se usuário já negou → NÃO ABRIR MODAL → mostrar aviso
+//   if (res.state === "denied") {
+//     setFormModalOpen(false);
+//     setEstrucaomodal(true);
+//     hendleresetForm();
+//     return;
+//   }
+
+//   // 2. Se ainda não respondeu (prompt) → abrir modal de permissão
+//   if (res.state === "prompt") {
+//     setFormModalOpen(false);
+//     setOpen(true); // mantém modal aberto até aceitar ou negar
+//     return;
+//   }
+
+
+//   // 3. Se já permitiu → seguir fluxo normal
+//   if (res.state === "granted") {
+//     if (!name || !enderess || !numero || !pagamento) {
+//       toast.error("Por favor, preencha todos os campos do formulário.", {
+//         duration: 4000,
+//       });
+//       return;
+//     }
+
+//     const nomeCliente = name;
+//     const endereco = `${enderess}, Nº ${numero}`;
+//     const formaPagamento = pagamento;
+
+//     navigator.geolocation.getCurrentPosition((pos) => {
+//       const latitude = pos.coords.latitude;
+//       const longitude = pos.coords.longitude;
+
+//       const mensagem = gerarMensagemWhatsApp({
+//         pedidos: bag,
+//         nomeCliente,
+//         endereco,
+//         formaPagamento,
+//         latitude,
+//         longitude,
+//         typepedido:
+//           typepedido === "Retirar no local" ? "retirar_no_local" : "normal",
+//       });
+
+//       const numero = "5574935050160";
+//       const url = `https://wa.me/${numero}?text=${encodeURIComponent(
+//         mensagem
+//       )}`;
+
+//       hendleresetForm();
+//       setFormModalOpen(false);
+//       setCloseBag(false);
+//       addToBag([]); // esvazia a sacola
+//       window.open(url, "_blank");
+//     });
+//   }
+// }
+
+
+async function enviarPedido(tipo) {
+  let latitude = null;
+  let longitude = null;
+
+  // Se for retirada no local → nem precisa de localização
   if (tipo === "Retirar no local") {
     const mensagem = gerarMensagemWhatsApp({
       pedidos: bag,
       formaPagamento: "Na Retirada",
-      tipoPedido: tipo, // sinaliza para gerar mensagem apropriada
+      tipoPedido: tipo,
     });
 
     const numero = "5574988161999";
@@ -80,15 +164,15 @@ async function enviarPedido(tipo) {
     hendleresetForm();
     setFormModalOpen(false);
     setCloseBag(false);
-    addToBag([]); // esvazia a sacola
+    addToBag([]);
 
-    window.open(url, "_blank");
+    window.location.href = url; // abre sem bloqueio
     return;
   }
 
+  // Verifica permissão antes de pedir geolocalização
   const res = await verificarPermissaoLocalizacao();
 
-  // 1. Se usuário já negou → NÃO ABRIR MODAL → mostrar aviso
   if (res.state === "denied") {
     setFormModalOpen(false);
     setEstrucaomodal(true);
@@ -96,16 +180,14 @@ async function enviarPedido(tipo) {
     return;
   }
 
-  // 2. Se ainda não respondeu (prompt) → abrir modal de permissão
   if (res.state === "prompt") {
     setFormModalOpen(false);
-    setOpen(true); // mantém modal aberto até aceitar ou negar
+    setOpen(true);
     return;
   }
 
-
-  // 3. Se já permitiu → seguir fluxo normal
   if (res.state === "granted") {
+    // valida o form
     if (!name || !enderess || !numero || !pagamento) {
       toast.error("Por favor, preencha todos os campos do formulário.", {
         duration: 4000,
@@ -113,36 +195,43 @@ async function enviarPedido(tipo) {
       return;
     }
 
-    const nomeCliente = name;
-    const endereco = `${enderess}, Nº ${numero}`;
-    const formaPagamento = pagamento;
-
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const latitude = pos.coords.latitude;
-      const longitude = pos.coords.longitude;
-
-      const mensagem = gerarMensagemWhatsApp({
-        pedidos: bag,
-        nomeCliente,
-        endereco,
-        formaPagamento,
-        latitude,
-        longitude,
-        typepedido:
-          typepedido === "Retirar no local" ? "retirar_no_local" : "normal",
+    // pega localização primeiro
+    try {
+      const pos = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
       });
 
-      const numero = "5574935050160";
-      const url = `https://wa.me/${numero}?text=${encodeURIComponent(
-        mensagem
-      )}`;
+      latitude = pos.coords.latitude;
+      longitude = pos.coords.longitude;
+    } catch (e) {
+      toast.error("Não foi possível acessar sua localização.");
+      return;
+    }
 
-      hendleresetForm();
-      setFormModalOpen(false);
-      setCloseBag(false);
-      addToBag([]); // esvazia a sacola
-      window.open(url, "_blank");
+    // agora monta a mensagem (fora da função callback)
+    const mensagem = gerarMensagemWhatsApp({
+      pedidos: bag,
+      nomeCliente: name,
+      endereco: `${enderess}, Nº ${numero}`,
+      formaPagamento: pagamento,
+      latitude,
+      longitude,
+      typepedido: tipo === "Retirar no local" ? "retirar_no_local" : "normal",
     });
+
+    const numeroWpp = "5574935050160";
+    const url = `https://wa.me/${numeroWpp}?text=${encodeURIComponent(
+      mensagem
+    )}`;
+
+    // limpa tudo
+    hendleresetForm();
+    setFormModalOpen(false);
+    setCloseBag(false);
+    addToBag([]);
+
+    // abre WhatsApp SEM BLOQUEIO
+    window.location.href = url;
   }
 }
 
